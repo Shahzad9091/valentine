@@ -75,6 +75,8 @@ button {
     position: absolute;
     background: #333;
     color: white;
+    transition: all 0.2s ease; /* Makes the escape look smooth */
+    touch-action: none;        /* Prevents the screen from scrolling when she tries to tap it */
 }
 
 #message {
@@ -134,9 +136,11 @@ const MY_PHOTO_URL = "https://postcardsua.com/cdn/shop/products/ukrainian_valent
 // Initial position for NO button
 noBtn.style.left = "40%";
 noBtn.style.top = "60px";
+// Function to handle the movement
+// Function to move the button to a random spot
+function moveNoButton(e) {
+    if (e) e.preventDefault(); // This is the secret sauce for mobile!
 
-// Make NO escape
-noBtn.addEventListener("mouseenter", () => {
     const maxX = buttonArea.clientWidth - noBtn.offsetWidth;
     const maxY = buttonArea.clientHeight - noBtn.offsetHeight;
 
@@ -145,7 +149,17 @@ noBtn.addEventListener("mouseenter", () => {
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-});
+}
+
+// Moves when mouse enters (Desktop)
+noBtn.addEventListener("mouseenter", moveNoButton);
+
+// Moves when finger touches (Mobile)
+noBtn.addEventListener("touchstart", moveNoButton);
+
+// Optional: prevent clicking entirely
+noBtn.addEventListener("click", (e) => e.preventDefault());
+
 
 // YES click action
 yesBtn.addEventListener("click", () => {
