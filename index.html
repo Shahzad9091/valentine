@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    overflow: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    transition: all 0.5s ease;
+}
+
+/* Styles for the image that will appear */
+#celebrationImg {
+    max-width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+    display: none; /* Hidden by default */
+    animation: fadeIn 1s ease-in-out;
+}
+
+h1 {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: white;
+    margin-bottom: 40px;
+}
+
+.buttons {
+    position: relative;
+    height: 150px;
+}
+
+button {
+    padding: 14px 28px;
+    font-size: clamp(14px, 3vw, 18px);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#yesBtn {
+    background: white;
+    color: #ff4d6d;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+}
+
+#noBtn {
+    position: absolute;
+    background: #333;
+    color: white;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: clamp(16px, 4vw, 22px);
+    color: white;
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+.heart {
+    position: fixed;
+    font-size: 30px;
+    pointer-events: none;
+    animation: float 3s linear forwards;
+    z-index: 999;
+}
+
+@keyframes float {
+    from { transform: translateY(10vh); opacity: 1; }
+    to { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mainContainer">
+    <h1 id="question">Анастасіє, ти неймовірна дівчина. Ти будеш моєю Валентинкою? 💖</h1>
+
+    <div class="buttons" id="buttonWrap">
+        <button id="yesBtn">Так 💕</button>
+        <button id="noBtn">Ні 😜</button>
+    </div>
+
+    <img id="celebrationImg" src="https://postcardsua.com/cdn/shop/products/ukrainian_valentine-card-postal-ukraine.jpg?v=1611666934&width=533" alt="Valentine Image">
+    
+    <div id="message"></div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+const buttonArea = document.querySelector(".buttons");
+const question = document.getElementById("question");
+const buttonWrap = document.getElementById("buttonWrap");
+const celebrationImg = document.getElementById("celebrationImg");
+
+// Change this link to your actual photo URL
+const MY_PHOTO_URL = "https://postcardsua.com/cdn/shop/products/ukrainian_valentine-card-postal-ukraine.jpg?v=1611666934&width=533"; 
+
+// Initial position for NO button
+noBtn.style.left = "39.5%";
+noBtn.style.top = "60px";
+
+// Make NO escape
+noBtn.addEventListener("mouseenter", () => {
+    const maxX = buttonArea.clientWidth - noBtn.offsetWidth;
+    const maxY = buttonArea.clientHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+// YES click action
+yesBtn.addEventListener("click", () => {
+    // 1. Remove the text and buttons
+    question.style.display = "none";
+    buttonWrap.style.display = "none";
+
+    // 2. Show and set the image
+    celebrationImg.src = MY_PHOTO_URL;
+    celebrationImg.style.display = "inline-block";
+
+    // 3. Show the final message
+    message.innerHTML = "Yayyyy ❤️ Ти зробила мій день! Я такий щасливий, що ти сказала «так». Не можу дочекатися, щоб зробити цей день особливим для тебе. 💘";
+    
+    startHearts();
+});
+
+// Floating hearts animation
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.bottom = "0";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 3000);
+    }, 200);
+}
+</script>
+
+</body>
+</html>
